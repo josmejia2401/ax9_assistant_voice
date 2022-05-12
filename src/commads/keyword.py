@@ -1,0 +1,1 @@
+no_listen = ["No escucho, ¿me repites por favor?", "No entendí lo que dijiste, ¿me repites por favor?", "Se escucha muy bajo, ¿me repites por favor?", "Hay mucho ruido y no escucho bien, ¿me repites por favor?"]
