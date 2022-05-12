@@ -9,7 +9,6 @@ from ..config.index import Config
 class SetUpCommand(object):
     def __init__(self):
         super().__init__()
-        self.reval = ReEval()
         self.ttsEngine = TTSEngine()
         self.sttEngine = STTEngine()
 
@@ -20,7 +19,7 @@ class SetUpCommand(object):
     def _changeNameCommand(self, query):
         allowed = ["^.*(cambiar nombre)+.*$", "^.*(cambiar mi nombre)+.*$", "^.*(establecer nombre)+.*$", "^.*(cambiar dueño)+.*$", "^.*(cambiar mi dueño)+.*$", "^.*(establecer dueño)+.*$"]
         for pattern in allowed:
-            result = self.reval.eval(pattern, query)
+            result = ReEval.eval(pattern, query)
             if result:
                 self.ttsEngine.speak("¿Cuál es tú nombre o cómo deseas que te llame?")
                 command = None
@@ -35,6 +34,13 @@ class SetUpCommand(object):
                         break
                     cont = cont + 1
                 if command:
+                    #(.*) representa el nombre - grupo(1)
+                    name_allowed = ["(.*) es mi nombre.*", "soy (.*)", "me llamo (.*)", "llamame (.*)", ".* llamar (.*)"]
+                    for name in name_allowed:
+                        m = ReEval.match(name, "jose es mi nombre")
+                        if m and m.group(1):
+                            command = m.group(1)
+                            break
                     config = Config.getConfig()
                     config.userInfo.name = command
                     Config.setConfig(config.toJson)
