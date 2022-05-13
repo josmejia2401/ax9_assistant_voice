@@ -3,7 +3,6 @@ from .engine.stt import STTEngine
 from .engine.tts import TTSEngine
 from .brain.commads.index import IndexCommand
 from .config.index import Config
-from .brain.analyzer import Analyzer
 
 
 class Main:
@@ -16,7 +15,6 @@ class Main:
         try:
             while True:
                 query = STTEngine.getInstance().command()
-                query, _ = Analyzer.getInstance().extract(query)
                 command = self.commands.command(query)
                 TTSEngine.getInstance().speak(command)
         except Exception as e:

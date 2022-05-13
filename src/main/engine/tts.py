@@ -40,3 +40,4 @@ class TTSEngine(object):
         tts = gtts.gTTS(text, lang=self.language)
         tts.save(self.filename)
         self.runAndWait()
+        self.stop()

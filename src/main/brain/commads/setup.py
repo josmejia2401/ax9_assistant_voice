@@ -35,7 +35,7 @@ class SetUpCommand(object):
                     #(.*) representa el nombre - grupo(1)
                     name_allowed = ["(.*) es mi nombre.*", "soy (.*)", "me llamo (.*)", "llamame (.*)", ".* llamar (.*)"]
                     for name in name_allowed:
-                        m = ReEval.match(name, "jose es mi nombre")
+                        m = ReEval.match(name, command)
                         if m and m.group(1):
                             command = m.group(1)
                             break

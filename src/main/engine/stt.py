@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import speech_recognition as sr
+from ..brain.analyzer import Analyzer
 
 class STTEngine(object):
     """
@@ -41,8 +42,10 @@ class STTEngine(object):
             raise TypeError("`recognizer` must be `Recognizer` instance")
         if not isinstance(self.microphone, sr.Microphone):
             raise TypeError("`microphone` must be `Microphone` instance")
-        #return self._recognizeSpeechFromMic()
-        return input("Escribe algo:\n")
+        #text = self._recognizeSpeechFromMic()
+        text = input("Escribe algo:\n")
+        text, _ = Analyzer.getInstance().extract(text)
+        return text
         
     def stop(self):
         print("Deteniendo...")
