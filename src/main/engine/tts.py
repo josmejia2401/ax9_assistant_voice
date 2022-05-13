@@ -10,12 +10,19 @@ class TTSEngine(object):
     # all available languages along with their IETF tag
     print(gtts.lang.tts_langs()
     """
+    _INSTANCE = None
 
     def __init__(self):
         super().__init__()
         # 'es-es': 'Spanish (Spain)', 'es-us': 'Spanish (United States)', 'es': 'Spanish'
         self.language = 'es-us'
         self.filename = 'speak.mp3'
+
+    @staticmethod
+    def getInstance():
+        if not TTSEngine._INSTANCE:
+            TTSEngine._INSTANCE = TTSEngine()
+        return TTSEngine._INSTANCE
 
     def stop(self):
         try:

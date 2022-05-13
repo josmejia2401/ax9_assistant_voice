@@ -1,30 +1,29 @@
 #!/usr/bin/python3
 from .engine.stt import STTEngine
 from .engine.tts import TTSEngine
-from .commads.index import IndexCommand
+from .brain.commads.index import IndexCommand
 from .config.index import Config
-import json
+from .brain.analyzer import Analyzer
+
 
 class Main:
     def __init__(self):
         super().__init__()
         Config.loadJson()
-        print( json.dumps(Config.data.toJson))
         self.commands = IndexCommand()
-        self.sttEngine = STTEngine()
-        self.ttsEngine = TTSEngine()
 
     def init(self):
         try:
             while True:
-                query = self.sttEngine.command()
+                query = STTEngine.getInstance().command()
+                query, _ = Analyzer.getInstance().extract(query)
                 command = self.commands.command(query)
-                self.ttsEngine.speak(command)
+                TTSEngine.getInstance().speak(command)
         except Exception as e:
             print(e)
         finally:
-            self.ttsEngine.stop()
-            self.sttEngine.stop()
+            STTEngine.getInstance().stop()
+            TTSEngine.getInstance().stop()
 
 
 if __name__ == '__main__':

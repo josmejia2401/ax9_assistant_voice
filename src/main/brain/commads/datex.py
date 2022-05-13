@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import datetime
-from ..regex.index import ReEval
-from ..config.index import Config
+from ...regex.index import ReEval
+from ...config.index import Config
 
 class DateCommand(object):
     def __init__(self):

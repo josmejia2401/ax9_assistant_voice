@@ -1,16 +1,14 @@
 #!/usr/bin/python3
 import random
-from ..regex.index import ReEval
-from ..engine.tts import TTSEngine
-from ..engine.stt import STTEngine
+from ...regex.index import ReEval
+from ...engine.tts import TTSEngine
+from ...engine.stt import STTEngine
 from .keyword import no_listen
-from ..config.index import Config
+from ...config.index import Config
 
 class SetUpCommand(object):
     def __init__(self):
         super().__init__()
-        self.ttsEngine = TTSEngine()
-        self.sttEngine = STTEngine()
 
     def command(self, query):
         command = self._changeNameCommand(query)
@@ -21,15 +19,15 @@ class SetUpCommand(object):
         for pattern in allowed:
             result = ReEval.eval(pattern, query)
             if result:
-                self.ttsEngine.speak("¿Cuál es tú nombre o cómo deseas que te llame?")
+                TTSEngine.getInstance().speak("¿Cuál es tú nombre o cómo deseas que te llame?")
                 command = None
                 cont = 0
                 while command is None:
-                    command = self.sttEngine.command()
+                    command = STTEngine.getInstance().command()
                     if command:
                         break
                     if cont < 5:
-                        self.ttsEngine.speak(random.choice(no_listen))
+                        TTSEngine.getInstance().speak(random.choice(no_listen))
                     else:
                         break
                     cont = cont + 1
